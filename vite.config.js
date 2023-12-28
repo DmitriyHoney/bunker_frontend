@@ -12,5 +12,14 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  server: {
+    host: true,
+    port: 8080,
+    // add the next lines if you're using windows and hot reload doesn't work
+    // watch: {
+    //   usePolling: true
+    // }
+  },
+
 });
