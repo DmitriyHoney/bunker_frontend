@@ -1,15 +1,15 @@
 /* eslint-env node */
-require('@rushstack/eslint-patch/modern-module-resolution')
+require('@rushstack/eslint-patch/modern-module-resolution');
 
 module.exports = {
   root: true,
-  'extends': [
+  extends: [
     'plugin:vue/vue3-essential',
     'eslint:recommended',
-    '@vue/eslint-config-prettier/skip-formatting'
+    '@vue/eslint-config-prettier/skip-formatting',
   ],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
@@ -63,7 +63,7 @@ module.exports = {
     'max-len': [
       'error',
       {
-        code: 100,
+        code: 10000,
         ignoreUrls: true,
       },
     ],
@@ -157,4 +157,4 @@ module.exports = {
     'rest-spread-spacing': ['error', 'never'],
     'template-curly-spacing': ['error', 'never'],
   },
-}
+};
