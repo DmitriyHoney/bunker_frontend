@@ -42,60 +42,68 @@ const buttonsAnchors = [
     id: 'bagage',
   },
 ];
-
+import ImgMan from '../assets/images/cardperson/man.jpg';
+import ImgArt from '../assets/images/cardperson/art.jpg';
+import ImgHealth from '../assets/images/cardperson/hearth.jpg';
+import ImgFobia from '../assets/images/cardperson/fobia.jpg';
+import ImgTravels from '../assets/images/cardperson/travels.jpg';
+import ImgIdea from '../assets/images/cardperson/idea.jpg';
+import ImgSurvive from '../assets/images/cardperson/survive.jpg';
+import ImgTools from '../assets/images/cardperson/tools.jpg';
+import ImgMask from '../assets/images/cardperson/mask.jpg';
 const personCards = [
   {
     name: 'Професии - 50 карт',
     description: 'Профессия персонажа. У артиста хорошая харизма, но врятли это поможет ему в зомби апокалипсисе',
-    image: '/src/assets/images/cardperson/man.jpg',
+    image: ImgMan,
     id: 'job',
   },
   {
     name: 'Хобби - 30 карт',
     description: 'Хобби может повлиять на ход игры, если профессия персонажа не очень востребована',
-    image: '/src/assets/images/cardperson/art.jpg',
+    image: ImgArt,
     id: 'hobby',
   },
   {
     name: 'Здоровье - 30 карт',
     description: 'Заразные игроки или игроки со смертельными болезнями опасны для нахождения в бункере с остальными',
-    image: '/src/assets/images/cardperson/hearth.jpg',
+    image: ImgHealth,
     id: 'health',
   },
   {
     name: 'Фобии - 30 карт',
     description: 'Обращайте внимание на фобию персонажа. Ведь если игрок боиться клоунов, а профессия другого игрока клоун, то врятли они уживуться в бункере',
-    image: '/src/assets/images/cardperson/fobia.jpg',
+    image: ImgFobia,
     id: 'fobies',
   },
   {
     name: 'Биологические характеристики- 30 карт',
     description: 'Возраст, пол играют одну из ключевых ролей для выживания',
-    image: '/src/assets/images/cardperson/travels.jpg',
+    image: ImgTravels,
     id: 'biology',
   },
   {
     name: 'Специальные условия - 50 карт',
     description: 'Вводят новую информацию для игроков во время игры.',
-    image: '/src/assets/images/cardperson/idea.jpg',
+    image: ImgIdea,
     id: 'spec',
   },
   {
     name: 'Дополнительные навыки - 30 карт',
     description: 'Порой эти карты могут изменить баланс сил и возможно вас не вышвырнут из бункера',
-    image: '/src/assets/images/cardperson/survive.jpg',
+    image: ImgSurvive,
     id: 'skills',
   },
   {
     name: 'Багаж - 30 карт',
     description: 'У игрока может быть что-то полезное в багаже',
-    image: '/src/assets/images/cardperson/tools.jpg',
+    image: ImgTools,
     id: 'bagage',
   },
   {
     name: 'Человеческие качества - 30 карт',
     description: 'Персонаж с высокими моральными ценностями более предпочтителен в бункере',
-    image: '/src/assets/images/cardperson/mask.jpg',
+    image: ImgMask,
     id: 'quality',
   },
 ];
