@@ -93,7 +93,7 @@ ul {
 .cataclysm {
   border-radius: 42px;
   &__info {
-    background-image: url('/frontend/src/assets/images/cataclysm-bg.jpg');
+    background-image: url('../assets/images/cataclysm-bg.jpg');
     background-repeat: round;
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
