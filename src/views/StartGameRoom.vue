@@ -5,7 +5,6 @@ import { reactive, ref } from 'vue';
 
 const form = reactive({ link: 'https://bunker-online.com/game?game=etifBeG' });
 
-
 const players = [
   {
     id: 1,
@@ -91,11 +90,15 @@ const handleClickCopyLink = async () => {
 <template>
   <section class="start-player-section start-game-room">
     <div class="container">
-      <base-button class="center" variant="primary_flat" to="game-rules" blank>Как играть?</base-button>
+      <base-button class="center" variant="primary_flat" to="game-rules" blank
+        >Как играть?</base-button
+      >
       <h2 class="base-title">Пригласить друзей в комнату</h2>
       <form class="start-player-section__form">
         <base-input label="Ссыллка" v-model="form.link" />
-        <base-button @click="handleClickCopyLink" variant="primary_outlined" :isLoading="isLoading">Копировать ссылку</base-button>
+        <base-button @click="handleClickCopyLink" variant="primary_outlined" :isLoading="isLoading"
+          >Копировать ссылку</base-button
+        >
       </form>
       <p class="start-game-room__info">
         <span>Внимание!</span> Чтобы начать игру нужно минимум 6 человек, максимум 16
@@ -105,7 +108,7 @@ const handleClickCopyLink = async () => {
         <div class="player-list">
           <div class="player-list__item" v-for="player in players" :key="player.id">
             <div class="player-list__item-avatar">
-              <img src="../assets/images/user-avatar.svg" alt="user-avatar">
+              <img src="../assets/images/user-avatar.svg" alt="user-avatar" />
             </div>
             <div class="player-list__item-info">
               {{ player.name }}
@@ -113,9 +116,9 @@ const handleClickCopyLink = async () => {
           </div>
         </div>
       </div>
-      <base-button v-if="isOwner" class="center">Начать игру</base-button>
+      <base-button v-if="isOwner" class="center" to="game-room">Начать игру</base-button>
       <p v-else class="info-tag center">
-        <img src="../assets/images/info-circle.svg" alt="info-circle">
+        <img src="../assets/images/info-circle.svg" alt="info-circle" />
         Ждите пока создатель игры запустит её
       </p>
     </div>
@@ -126,7 +129,7 @@ const handleClickCopyLink = async () => {
 .start-game-room {
   background-image: url('../assets/images/startgameroom-bg.jpg');
   &__info {
-    color: #FFF;
+    color: #fff;
     font-family: Inter;
     font-size: 16px;
     font-style: normal;
@@ -134,7 +137,7 @@ const handleClickCopyLink = async () => {
     line-height: normal;
     margin-top: 12px;
     & span {
-      color: #FF4C29;
+      color: #ff4c29;
     }
   }
 }
@@ -143,7 +146,7 @@ const handleClickCopyLink = async () => {
   margin-top: 72px;
   margin-bottom: 32px;
   &__title {
-    color: #FFF;
+    color: #fff;
     font-size: 32px;
     font-style: normal;
     font-weight: 600;
@@ -151,7 +154,6 @@ const handleClickCopyLink = async () => {
     margin-bottom: 32px;
   }
 }
-
 
 .player-list {
   display: flex;
@@ -163,23 +165,23 @@ const handleClickCopyLink = async () => {
     width: calc(25% - 18px);
     display: flex;
     border-radius: 8px;
-    border: 1px solid #FFF;
+    border: 1px solid #fff;
     &-info {
       padding: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #FFF;
+      color: #fff;
       font-style: normal;
       font-weight: 600;
       line-height: normal;
     }
     &-avatar {
       width: 53px;
-      border-right: 1px solid #FFF;
+      border-right: 1px solid #fff;
       padding: 8px;
       padding-bottom: 0;
-      background-color: #FF4C29;
+      background-color: #ff4c29;
       border-radius: 8px 0px 0px 8px;
       & img {
         position: relative;
@@ -190,7 +192,7 @@ const handleClickCopyLink = async () => {
 }
 
 .info-tag {
-  color: #D2D2D2;
+  color: #d2d2d2;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;

@@ -31,6 +31,11 @@ const router = createRouter({
       name: 'uikit',
       component: () => import('../views/UIKit.vue'),
     },
+    {
+      path: '/game-room',
+      name: 'game-room',
+      component: () => import('../views/GameRoom.vue'),
+    },
   ],
 });
 
