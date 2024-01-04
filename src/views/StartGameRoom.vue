@@ -73,7 +73,7 @@ const players = [
     name: 'Сергей',
   },
 ];
-const isOwner = ref(false);
+const isOwner = ref(true);
 const isLoading = ref(false);
 
 const handleClickCopyLink = async () => {
@@ -92,7 +92,7 @@ const handleClickCopyLink = async () => {
 <template>
   <section class="start-player-section start-game-room">
     <div class="container">
-      <base-button class="center" variant="primary_flat" to="game-rules" blank
+      <base-button class="center" variant="primary_flat" to="game-rules"
         >Как играть?</base-button
       >
       <h2 class="base-title">Пригласить друзей в комнату</h2>

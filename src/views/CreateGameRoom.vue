@@ -14,7 +14,7 @@ const handleClickCreateGame = () => {
 <template>
   <section class="start-player-section create-game-room">
     <div class="container">
-      <base-button class="center" variant="primary_flat" to="game-rules" blank>Как играть?</base-button>
+      <base-button class="center" variant="primary_flat" to="game-rules">Как играть?</base-button>
       <h2 class="base-title">Создать игровую комнату</h2>
       <form class="start-player-section__form">
         <base-input label="Введите имя" v-model="form.name" />
