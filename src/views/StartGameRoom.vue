@@ -2,6 +2,8 @@
 import BaseButton from '@/components/common/BaseButton.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
 import { reactive, ref } from 'vue';
+import IconInfoCircle from '@/components/icons/IconInfoCircle.vue';
+import IconUserAvatar from '@/components/icons/IconUserAvatar.vue';
 
 const form = reactive({ link: 'https://bunker-online.com/game?game=etifBeG' });
 
@@ -71,7 +73,7 @@ const players = [
     name: 'Сергей',
   },
 ];
-const isOwner = ref(true);
+const isOwner = ref(false);
 const isLoading = ref(false);
 
 const handleClickCopyLink = async () => {
@@ -104,11 +106,11 @@ const handleClickCopyLink = async () => {
         <span>Внимание!</span> Чтобы начать игру нужно минимум 6 человек, максимум 16
       </p>
       <div class="player-list-wrap">
-        <h3 class="player-list-wrap__title">Игроки</h3>
+        <h4 class="player-list-wrap__title base-title-h4">Игроки</h4>
         <div class="player-list">
           <div class="player-list__item" v-for="player in players" :key="player.id">
             <div class="player-list__item-avatar">
-              <img src="../assets/images/user-avatar.svg" alt="user-avatar" />
+              <icon-user-avatar />
             </div>
             <div class="player-list__item-info">
               {{ player.name }}
@@ -118,7 +120,7 @@ const handleClickCopyLink = async () => {
       </div>
       <base-button v-if="isOwner" class="center" to="game-room">Начать игру</base-button>
       <p v-else class="info-tag center">
-        <img src="../assets/images/info-circle.svg" alt="info-circle" />
+        <icon-info-circle />
         Ждите пока создатель игры запустит её
       </p>
     </div>
@@ -146,11 +148,6 @@ const handleClickCopyLink = async () => {
   margin-top: 72px;
   margin-bottom: 32px;
   &__title {
-    color: #fff;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
     margin-bottom: 32px;
   }
 }
@@ -183,9 +180,9 @@ const handleClickCopyLink = async () => {
       padding-bottom: 0;
       background-color: #ff4c29;
       border-radius: 8px 0px 0px 8px;
-      & img {
+      & svg {
         position: relative;
-        bottom: -7px;
+        bottom: -10px;
       }
     }
   }

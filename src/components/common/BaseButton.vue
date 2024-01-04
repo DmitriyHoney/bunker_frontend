@@ -4,6 +4,7 @@ const BUTTON_TYPES = {
   PRIMARY_OUTLINED: 'primary_outlined',
   PRIMARY_FLAT: 'primary_flat',
   PRIMARY_OUTLINED_DARK: 'primary_outlined_dark',
+  PRIMARY_DARK: 'primary_dark',
 
   SECONDARY: 'secondary',
   SECONDARY_OUTLINED: 'secondary_outlined',
@@ -108,6 +109,12 @@ $gray: #A0A8B5;
   border: 1px solid transparent;
   min-width: 120px;
   position: relative;
+  &__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
   .base-btn__loading {
     display: none;
   }
@@ -145,6 +152,11 @@ $gray: #A0A8B5;
     background: transparent;
     border-color: #DDE1EB;
     color: $dark;
+  }
+  &[data-variant="primary_dark"] {
+    background: transparent;
+    border-color: #D2D2D2;
+    color: $primary;
   }
   &[data-variant="secondary"] {
     background: $secondary;
