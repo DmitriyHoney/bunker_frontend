@@ -5,12 +5,13 @@
 :root {
   font-size: 18px;
   font-family: 'Inter', sans-serif;
+  font-weight: 400;
 }
 
 body {
   padding: 0;
   margin: 0;
-    background-color: #000F1A;
+  background-color: #000F1A;
 }
 
 h1,
@@ -32,8 +33,8 @@ a {
 }
 
 .center {
-    margin: 0px auto;
-    text-align: center;
+  margin: 0px auto;
+  text-align: center;
 }
 
 .base-title {
@@ -91,4 +92,12 @@ a {
 
 .start-player-section__form .base-input {
   width: 500px;
+}
+
+.base-title-h4 {
+  color: #fff;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
