@@ -3,7 +3,6 @@ import BaseButton from '@/components/common/BaseButton.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import BaseTooltip from '@/components/common/BaseTooltip.vue';
 
 const router = useRouter();
 const form = reactive({ name: '' });
