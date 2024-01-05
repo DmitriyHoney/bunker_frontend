@@ -6,6 +6,7 @@
   font-size: 18px;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
+  --dark-cl: #424242;
 }
 
 body {
