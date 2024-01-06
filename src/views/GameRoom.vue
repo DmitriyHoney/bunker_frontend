@@ -18,17 +18,17 @@ const bunkerProps = [
   {
     name: 'Размер бункера:',
     value: '150 кв.м',
-    tooltip: '',
+    tooltip: 'От размера бункера зависит его вместимость и количество комнат',
   },
   {
     name: 'Время нахождения:',
     value: '3 года',
-    tooltip: '',
+    tooltip: 'Сколько игрокам после того как они попадут в бункер нужно переждать катаклизм',
   },
   {
     name: 'Кол-во еды:',
     value: 'В большом количестве',
-    tooltip: '',
+    tooltip: 'Количество еды в бункере определяет кого необходимо взять в бункер',
   },
 ];
 const bunkerItems = [
@@ -51,53 +51,61 @@ const player = {
     {
       label: 'Профессия:',
       text: 'Строитель',
+      tooltip: '',
       open: false,
     },
     {
       label: 'Биологические характеристики:',
       text: 'Мужчина (21 год)',
+      tooltip: '',
       open: true,
     },
     {
       label: 'Здоровье:',
       text: 'Рак кожи',
+      tooltip: '',
       open: false,
     },
     {
-      label: 'Хобби:',
+      label: 'Хоббиqweqweqwe:',
       text: 'Комьютерные игры',
+      tooltip: '',
       open: false,
     },
     {
       label: 'Фобия:',
       text: 'Арахнофобия',
+      tooltip: '',
       open: false,
     },
     {
       label: 'Дополнительные навыки:',
+      tooltip: '',
       text: 'Навыки взлома',
       open: false,
     },
     {
       label: 'Человеческие качества:',
       text: 'Капризный',
+      tooltip: '',
       open: false,
     },
     {
       label: 'Багаж:',
       text: 'Семена пшеницы',
+      tooltip: '',
       open: true,
     },
   ],
   specs: [
     {
-      text: 'Строитель',
-      tooltip: 'Ваш специальный навык',
+      text: 'Громкий голос',
+      tooltip: 'Имеет два голоса в голосовании)',
       used: true,
     },
     {
-      text: 'Рак кожи',
-      tooltip: 'Второй спец навык',
+      text: 'Вторая попытка',
+      tooltip: 'Может поменять свою карту здоровья на другую рандомную',
       used: false,
     },
   ],
@@ -109,41 +117,49 @@ const players = [
       {
         label: 'Профессия:',
         text: 'Строитель',
+        tooltip: '',
         open: false,
       },
       {
         label: 'Биологические характеристики:',
         text: 'Мужчина (21 год)',
+        tooltip: '',
         open: true,
       },
       {
         label: 'Здоровье:',
         text: 'Рак кожи',
+        tooltip: '',
         open: false,
       },
       {
         label: 'Хобби:',
         text: 'Комьютерные игры',
+        tooltip: '',
         open: false,
       },
       {
         label: 'Фобия:',
         text: 'Арахнофобия',
+        tooltip: '',
         open: false,
       },
       {
         label: 'Дополнительные навыки:',
         text: 'Навыки взлома',
+        tooltip: '',
         open: false,
       },
       {
         label: 'Человеческие качества:',
         text: 'Капризный',
+        tooltip: '',
         open: false,
       },
       {
         label: 'Багаж:',
         text: 'Семена пшеницы',
+        tooltip: '',
         open: true,
       },
     ],
@@ -243,7 +259,7 @@ const players = [
             <li class="bunker__property" v-for="(prop, key) in bunkerProps" :key="key">
               <span class="bunker__property-title">{{ prop.name }}</span>
               <p class="bunker__property-value">
-                <base-tooltip :title="prop.tooltip" placement="top">
+                <base-tooltip :title="prop.tooltip">
                   <icon-info-circle></icon-info-circle>
                 </base-tooltip>
                 {{ prop.value }}
@@ -254,7 +270,7 @@ const players = [
             <p>В бункере присутствует:</p>
             <ul>
               <li class="bunker__item" v-for="(item, key) in bunkerItems" :key="key">
-                <base-tooltip title="wow" placement="top">
+                <base-tooltip :title="item.tooltip">
                   <icon-info-circle></icon-info-circle>
                 </base-tooltip>
                 {{ item.value }}
@@ -275,7 +291,7 @@ const players = [
             <li v-for="(attr, key) in player.attrs" :key="key">
               <span>{{ attr.label }}</span>
               <div class="about-you__attr">
-                <base-tooltip placement="top" title="spec.tooltip">
+                <base-tooltip :title="attr.tooltip">
                   <icon-info-circle></icon-info-circle>
                 </base-tooltip>
                 <p>
@@ -291,7 +307,7 @@ const players = [
           <h4 class="base-title-h4">Специальные условия</h4>
           <ul>
             <li class="about-you__spec-condition" v-for="(spec, key) in player.specs" :key="key">
-              <base-tooltip placement="top" title="spec.tooltip">
+              <base-tooltip placement="top" :title="spec.tooltip">
                 <icon-info-circle></icon-info-circle>
               </base-tooltip>
               <p>
