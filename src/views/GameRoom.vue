@@ -307,7 +307,7 @@ const players = [
           <h4 class="base-title-h4">Специальные условия</h4>
           <ul>
             <li class="about-you__spec-condition" v-for="(spec, key) in player.specs" :key="key">
-              <base-tooltip placement="top" :title="spec.tooltip">
+              <base-tooltip :title="spec.tooltip">
                 <icon-info-circle></icon-info-circle>
               </base-tooltip>
               <p>
