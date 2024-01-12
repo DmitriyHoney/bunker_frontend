@@ -1,13 +1,14 @@
 <script setup>
 import BaseButton from '@/components/common/BaseButton.vue';
 import BaseTooltip from '@/components/common/BaseTooltip.vue';
+import IconInfoCircle from '@/components/icons/IconInfoCircle.vue';
 
 defineProps({
   title: String,
   description: String,
   img: String,
-  bunkerPlaces: Number,
-  bunkerAvailableCardsCount: Number,
+  bunkerPlaces: [Number, String],
+  bunkerAvailableCardsCount: [Number, String],
   bunkerCards: Array,
 });
 </script>
@@ -33,7 +34,9 @@ defineProps({
       </div>
       <ul class="bunker__cards">
         <li class="bunker__card" v-for="(card, key) in bunkerCards" :key="key">
-          <base-tooltip :title="card.tip">1</base-tooltip>
+          <base-tooltip :title="card.tooltip">
+            <icon-info-circle></icon-info-circle>
+          </base-tooltip>
           {{ card.name }}
         </li>
       </ul>
@@ -57,6 +60,7 @@ defineProps({
     gap: 24px;
     align-self: stretch;
     border-radius: 42px 42px 0px 0px;
+    background-image: url('../src/assets/images/cataclysm-bg.jpg');
     &__header {
       display: flex;
       justify-content: space-between;
@@ -128,6 +132,32 @@ defineProps({
       gap: 12px;
       border-radius: 12px;
       border: 1.5px solid var(--regreg, #2c394b);
+    }
+    &__cards {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      align-items: flex-start;
+      gap: 32px 24px;
+      align-self: stretch;
+      flex-wrap: wrap;
+    }
+    &__card {
+      color: #fff;
+      font-family: Inter;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      display: flex;
+      min-width: 32.11%;
+      padding: 18px 24px;
+      align-items: center;
+      gap: 12px;
+      align-self: stretch;
+      border-radius: 8px;
+      background: var(--regreg, linear-gradient(315deg, #2c394b 0%, #334756 100%));
     }
   }
 }
