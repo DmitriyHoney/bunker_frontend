@@ -92,19 +92,24 @@ const handleClickCopyLink = async () => {
 <template>
   <section class="start-player-section start-game-room">
     <div class="container">
-      <base-button class="center" variant="primary_flat" to="game-rules"
-        >Как играть?</base-button
-      >
+      <base-button class="center" variant="primary_flat" to="game-rules">Как играть?</base-button>
       <h2 class="base-title">Пригласить друзей в комнату</h2>
-      <form class="start-player-section__form">
-        <base-input label="Ссыллка" v-model="form.link" />
-        <base-button @click="handleClickCopyLink" variant="primary_outlined" :isLoading="isLoading"
-          >Копировать ссылку</base-button
-        >
-      </form>
-      <p class="start-game-room__info">
-        <span>Внимание!</span> Чтобы начать игру нужно минимум 6 человек, максимум 16
-      </p>
+      <div class="start-player-section__link">
+        <div class="start-player-section__content">
+          <form class="start-player-section__form">
+            <base-input label="Ссыллка" v-model="form.link" />
+            <base-button
+              @click="handleClickCopyLink"
+              variant="primary_outlined"
+              :isLoading="isLoading"
+              >Копировать ссылку</base-button
+            >
+          </form>
+          <p class="start-game-room__info">
+            <span>Внимание!</span> Чтобы начать игру нужно минимум 6 человек, максимум 16
+          </p>
+        </div>
+      </div>
       <div class="player-list-wrap">
         <h4 class="player-list-wrap__title base-title-h4">Игроки</h4>
         <div class="player-list">
@@ -128,6 +133,15 @@ const handleClickCopyLink = async () => {
 </template>
 
 <style scoped lang="scss">
+.start-player-section {
+  &__content {
+    width: fit-content;
+    margin: auto;
+  }
+  p {
+    text-align: left;
+  }
+}
 .start-game-room {
   background-image: url('../assets/images/startgameroom-bg.jpg');
   &__info {

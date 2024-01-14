@@ -9,6 +9,7 @@ defineProps({
   playerNow: Object,
   player: Object,
   players: Array,
+  modals: Object,
 });
 </script>
 
@@ -27,7 +28,7 @@ defineProps({
     <div class="player__card">
       <ul class="player__attrs">
         <li v-for="(attr, key) in player.attrs" :key="key">
-          <span>{{ attr.name }}:</span>
+          <span class="player__attr-name">{{ attr.name }}:</span>
           <div class="player__item">
             <base-tooltip :title="attr.tooltip">
               <icon-info-circle></icon-info-circle>
@@ -142,14 +143,19 @@ ul {
     flex-wrap: wrap;
     li {
       width: 31.66%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
     }
   }
-  &__attr {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    flex: 1 0 0;
+  &__attr-name {
+    color: var(--reg, #d2d2d2);
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
   &__specs {
     display: flex;

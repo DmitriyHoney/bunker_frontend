@@ -3,8 +3,12 @@ import LobbyInfo from '@/components/GameRoom/LobbyInfo.vue';
 import PlayerCard from '@/components/GameRoom/PlayerCard.vue';
 import PlayersList from '@/components/GameRoom/PlayersList.vue';
 import IconLine from '@/components/icons/IconLine.vue';
-import BaseAlert from '@/components/common/BaseAlert.vue';
-import { reactive, ref } from 'vue';
+import ModalAlert from '@/components/common/BaseModalAlert.vue';
+import ModalVotes from '@/components/common/BaseModalVotes.vue';
+
+import { ref } from 'vue';
+import ModalSpec from '@/components/common/BaseModalSpec.vue';
+import ModalBackVote from '@/components/common/BaseModalBackVote.vue';
 
 const title = 'Катаклизм';
 const description = `На протяжении десятков лет ученые всего мира проводили исследования и предпринимали
@@ -45,41 +49,49 @@ const player = {
   name: 'Максим',
   attrs: [
     {
+      name: 'Профессия',
       value: 'Строитель',
       opened: false,
       tooltip: 'Подсказка',
     },
     {
+      name: 'Биологические характеристики',
       value: 'Мужчина (21 год)',
       opened: false,
       tooltip: 'Подсказка',
     },
     {
+      name: 'Здоровье',
       value: 'Рак кожи',
       opened: false,
       tooltip: 'Подсказка',
     },
     {
+      name: 'Хобби',
       value: 'Компьютерные игры',
       opened: true,
       tooltip: 'Подсказка',
     },
     {
+      name: 'Фобия',
       value: 'Арахнофобия',
       opened: true,
       tooltip: 'Подсказка',
     },
     {
+      name: 'Дополнительные навыки',
       value: 'Навыки взлома',
       opened: false,
       tooltip: 'Подсказка',
     },
     {
+      name: 'Человеческие качества',
       value: 'Капризный',
       opened: false,
       tooltip: 'Подсказка',
     },
     {
+      name: 'Багаж',
       value: 'Семена пшеницы',
       opened: false,
       tooltip:
@@ -547,7 +559,10 @@ const kickedPlayers = [
     ],
   },
 ];
-const alertActive = ref(true);
+const alertActive = ref(false);
+const votesActive = ref(false);
+const specActive = ref(true);
+const backVoteActive = ref(false);
 </script>
 
 <template>
@@ -563,7 +578,9 @@ const alertActive = ref(true);
     <players-list :players="players" label="Игроки"></players-list>
     <icon-line></icon-line>
     <players-list :players="kickedPlayers" label="Таблица выбывших"></players-list>
-    <base-alert :active="alertActive"></base-alert>
+    <modal-alert :active="alertActive"></modal-alert>
+    <modal-votes :players="players" :active="votesActive" :modalBack="backVoteActive"></modal-votes>
+    <modal-spec :players="players" :active="specActive"></modal-spec>
   </section>
 </template>
 

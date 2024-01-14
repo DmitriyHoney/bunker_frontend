@@ -22,11 +22,6 @@ const router = createRouter({
       component: GameRules,
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
-    },
-    {
       path: '/uikit',
       name: 'uikit',
       component: () => import('../views/UIKit.vue'),

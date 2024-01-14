@@ -36,8 +36,8 @@ defineProps({
   border-radius: 42px;
   background: #fff;
   width: 320px;
-  transition: 300ms;
-  transform: translate(400px, -100px);
+  transition: 500ms;
+  transform: translate(700px, -100px);
   &_active {
     transform: translate(-100px, -100px);
   }
