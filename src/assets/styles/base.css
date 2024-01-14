@@ -9,6 +9,11 @@
   --dark-cl: #424242;
 }
 
+button {
+  outline: none;
+  border: none;
+}
+
 body {
   padding: 0;
   margin: 0;
