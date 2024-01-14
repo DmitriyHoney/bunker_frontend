@@ -9,7 +9,7 @@ const toogleModals = function () {};
 </script>
 
 <template>
-  <div :class="active ? 'back-vote-modal back-vote-modal_active' : 'back-vote-modal">
+  <div :class="active ? 'back-vote-modal back-vote-modal_active' : 'back-vote-modal'">
     <p class="back-vote-modal__text">Нажмите чтобы вернуться к голосованию</p>
     <base-button @click="toogleModals">Проголосовать</base-button>
   </div>
