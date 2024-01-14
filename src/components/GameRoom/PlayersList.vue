@@ -153,6 +153,9 @@ const checkScroll = () => {
 }
 
 .hidden-scroll {
+  overflow: auto;
+  -ms-overflow-style: none; /* IE 11 */
+  scrollbar-width: none; /* Firefox 64 */
   &::-webkit-scrollbar {
     height: 8px;
     display: none;
