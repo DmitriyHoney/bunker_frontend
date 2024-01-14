@@ -109,7 +109,11 @@ const personCards = [
 ];
 const activeId = ref(null);
 const goToAcnhor = (btn) => {
-  location.href = `#${btn.id}`;
+  document.getElementById(btn.id).scrollIntoView({
+    behavior: 'smooth',
+    inline: 'center',
+    block: 'center'
+  });
   const tId2 = setTimeout(() => {
     activeId.value = btn.id;
     clearTimeout(tId2);
@@ -296,8 +300,9 @@ const goToAcnhor = (btn) => {
 }
 .highlight {
   transition: all .5s ease;
-  transform: scale(1.03);
-  box-shadow: 0 0 15px rgb(234 234 234 / 23%);
+  //transform: scale(1.03);
+  //box-shadow: 0 0 15px rgb(234 234 234 / 23%);
+  border: 2px solid #FF4C29 !important;
 }
 .game-rules__category-card {
   transition: all .5s ease;
@@ -308,6 +313,7 @@ const goToAcnhor = (btn) => {
   border-radius: 12px;
   height: 100%;
   background: linear-gradient(315deg, rgba(51, 71, 86, 0.10) 0%, rgba(210, 210, 210, 0.10) 100%);
+  border: 2px solid transparent;
   &_sm {
     & .game-rules__category-card__image {
       flex-shrink: 0;
