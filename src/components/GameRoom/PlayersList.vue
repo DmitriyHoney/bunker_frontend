@@ -1,6 +1,6 @@
 <script setup>
 import IconArrowNext from '@/components/icons/IconArrowNext.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const mainHeaders = [
   { name: 'Игроки' },
@@ -64,6 +64,12 @@ const checkScroll = () => {
     :  isScrollEnd.value = false;
 };
 
+const maintable = ref(null);
+const height = ref(0);
+onMounted(() => {
+  height.value = maintable.value.offsetHeight + 2;
+});
+
 </script>
 
 <template>
@@ -77,7 +83,9 @@ const checkScroll = () => {
 <!--  -->
   <div class="players-list hidden-scroll" ref="parent" @scroll="checkScroll">
     <div class="players-list__content">
-      <div class="players-table">
+      <div class="players-table players-table_main" ref="maintable">
+        <div class="players-table_main__bg" :style="`height: ${height}px; ${isScrollEnd ? 'transform: translate(-3px, -1px)' : ''}`"></div>
+        <div class="players-table_main__bg2" :style="`height: ${height}px; ${isScrollEnd ? 'transform: translate(-3px, -1px)' : ''}`"></div>
         <div class="players-table__head">
           <div v-for="h in mainHeaders" :key="h.name">{{ h.name }}</div>
         </div>
@@ -194,6 +202,7 @@ const checkScroll = () => {
   padding: 42px;
   border-radius: 42px;
   border: 1px solid  #2C394B;
+  border-left: none;
   &_spec {
     border: 1px solid #D2D2D2;
     background: linear-gradient(315deg, #2C394B 0%, #334756 100%);
@@ -263,6 +272,69 @@ const checkScroll = () => {
     display: flex;
     flex-direction: column;
     gap: 24px;
+  }
+}
+
+.players-table_main {
+  & .players-table_main__bg {
+    content: '';
+    display: block;
+    background-color: #000F1A;
+    width: 240px;
+    position: absolute;
+    margin: -42px;
+    border-radius: 42px 0px 0px 42px;
+    transform: translate(-3px, -1px);
+    border-radius: 42px 0px 0px 42px;
+    border: 1px solid #2C394B;
+    border-right: none;
+    z-index: 11;
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      height: 100%;
+      background-color: #334756;
+      height: 85%;
+      width: 2px;
+      right: 5px;
+      top: 30px;
+    }
+  }
+  & .players-table_main__bg2 {
+    content: '';
+    display: block;
+    background-color: #000F1A;
+    width: 40px;
+    position: absolute;
+    margin: -42px;
+    border-radius: 42px 0px 0px 42px;
+    transform: translate(-3px, -1px);
+    border-radius: 0px;
+    border: none;
+    border-right: none;
+  }
+  .players-table__head {
+    & div {
+      &:first-child {
+        position: absolute;
+        z-index: 12;
+      }
+      &:nth-child(2) {
+        margin-left: 220px;
+      }
+    }
+  }
+  .players-table__row {
+    & div {
+      &:first-child {
+        position: absolute;
+        z-index: 12;
+      }
+      &:nth-child(2) {
+        margin-left: 220px;
+      }
+    }
   }
 }
 </style>
