@@ -60,7 +60,7 @@ defineProps({
     gap: 24px;
     align-self: stretch;
     border-radius: 42px 42px 0px 0px;
-    background-image: url('../src/assets/images/cataclysm-bg.jpg');
+    background-image: url('../../assets/images/cataclysm-bg.jpg');
     &__header {
       display: flex;
       justify-content: space-between;
