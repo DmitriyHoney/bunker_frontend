@@ -123,7 +123,7 @@ const handleClickCopyLink = async () => {
           </div>
         </div>
       </div>
-      <base-button v-if="isOwner" class="center" to="game-room">Начать игру</base-button>
+      <base-button v-if="isOwner" class="center" to="start-game-loader">Начать игру</base-button>
       <p v-else class="info-tag center">
         <icon-info-circle />
         Ждите пока создатель игры запустит её

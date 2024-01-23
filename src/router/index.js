@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import CreateGameRoom from '../views/CreateGameRoom.vue';
 import StartGameRoom from '../views/StartGameRoom.vue';
 import GameRules from '../views/GameRules.vue';
+import GameRoom from '../views/GameRoom.vue';
+import StartGameLoader from '../views/StartGameLoader.vue';
 
 import { useCommonStore } from '@/stores/index';
 
@@ -31,12 +33,18 @@ const router = createRouter({
     {
       path: '/game-room',
       name: 'game-room',
-      component: () => import('../views/GameRoom.vue'),
+      component: GameRoom,
+    },
+    {
+      path: '/start-game-loader',
+      name: 'start-game-loader',
+      component: StartGameLoader,
     },
   ],
 });
 
 router.beforeEach(async (to, from, next) => {
+  // TODO: если игра уже начата и активна - запретить переход на start-game-loader
   const commonStore = useCommonStore();
   commonStore.setActiveLoader();
   await new Promise((resolve) => {

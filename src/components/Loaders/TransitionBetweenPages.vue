@@ -16,11 +16,18 @@
 </template>
 
 <script setup>
-defineProps({
+import { watch } from 'vue';
+
+const props = defineProps({
   isActive: {
     type: Boolean,
     default: true,
   }
+});
+
+watch(() => props.isActive, () => {
+  const method = props.isActive ? 'add' : 'remove';
+  document.body.classList[method]('preloader-show');
 });
 </script>
 

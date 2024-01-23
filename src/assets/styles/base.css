@@ -38,6 +38,10 @@ a {
   max-width: 1400px;
 }
 
+.preloader-show {
+  overflow: hidden;
+}
+
 .center {
   margin: 0px auto;
   text-align: center;
