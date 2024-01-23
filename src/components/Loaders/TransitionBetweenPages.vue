@@ -25,7 +25,7 @@ defineProps({
 </script>
 
 <style scoped lang="scss">
-$cyan: #FF4C29;
+$cyan: #111F2C;
 $tiles: 5;
 
 body {
