@@ -62,7 +62,7 @@ const player = {
     },
     {
       name: 'Здоровье',
-      value: 'Рак кожи',
+      value: 'Сыпь',
       opened: false,
       tooltip: 'Подсказка',
     },
@@ -136,7 +136,7 @@ const players = [
         tooltip: 'Подсказка',
       },
       {
-        value: 'Рак кожи',
+        value: 'Сыпь',
         opened: false,
         tooltip: 'Подсказка',
       },
@@ -198,7 +198,7 @@ const players = [
         tooltip: 'Подсказка',
       },
       {
-        value: 'Рак кожи',
+        value: 'Сыпь',
         opened: false,
         tooltip: 'Подсказка',
       },
@@ -260,7 +260,7 @@ const players = [
         tooltip: 'Подсказка',
       },
       {
-        value: 'Рак кожи',
+        value: 'Сыпь',
         opened: false,
         tooltip: 'Подсказка',
       },
@@ -322,7 +322,7 @@ const players = [
         tooltip: 'Подсказка',
       },
       {
-        value: 'Рак кожи',
+        value: 'Сыпь',
         opened: false,
         tooltip: 'Подсказка',
       },
@@ -384,7 +384,7 @@ const players = [
         tooltip: 'Подсказка',
       },
       {
-        value: 'Рак кожи',
+        value: 'Сыпь',
         opened: false,
         tooltip: 'Подсказка',
       },
@@ -446,7 +446,7 @@ const players = [
         tooltip: 'Подсказка',
       },
       {
-        value: 'Рак кожи',
+        value: 'Сыпь',
         opened: false,
         tooltip: 'Подсказка',
       },
@@ -510,7 +510,7 @@ const kickedPlayers = [
         tooltip: 'Подсказка',
       },
       {
-        value: 'Рак кожи',
+        value: 'Сыпь',
         opened: false,
         tooltip: 'Подсказка',
       },
