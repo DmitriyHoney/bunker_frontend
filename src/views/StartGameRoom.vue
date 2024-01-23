@@ -194,9 +194,13 @@ const handleClickCopyLink = async () => {
       padding-bottom: 0;
       background-color: #ff4c29;
       border-radius: 8px 0px 0px 8px;
+      position: relative;
       & svg {
-        position: relative;
-        bottom: -10px;
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        bottom: 0px;
+        transform: translateX(-50%);
       }
     }
   }
