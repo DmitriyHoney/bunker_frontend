@@ -40,10 +40,13 @@ router.beforeEach(async (to, from, next) => {
   const commonStore = useCommonStore();
   commonStore.setActiveLoader();
   await new Promise((resolve) => {
-    setTimeout(() => resolve(true), 2500);
+    setTimeout(() => resolve(true), 1500);
+  });
+  next();
+  await new Promise((resolve) => {
+    setTimeout(() => resolve(true), 1500);
   });
   commonStore.setInactiveLoader();
-  next();
 });
 
 export default router;
