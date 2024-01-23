@@ -58,7 +58,7 @@ body {
   left: 0;
   width: 0;
   height: 100vh;
-  transition: width 0s 1.4s ease;
+  transition: width 0s 1.2s ease;
 
   #{$parent}__icon {
     position: absolute;
@@ -80,7 +80,7 @@ body {
     width: 0;
     height: 20%;
     background-color: $cyan;
-    transition: width .7s ease;
+    transition: width .3s ease;
 
     @for $i from 0 through $tiles {
       &:nth-child(#{$i}) {

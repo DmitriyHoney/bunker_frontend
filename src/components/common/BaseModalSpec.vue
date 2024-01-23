@@ -43,10 +43,11 @@ defineProps({
   border-radius: 42px 0px 0px 42px;
   background: #fff;
   box-shadow: 0px 11px 250px 0px #2c394b;
-  transform: translateX(5000px);
-  transition: 300ms;
+  transform: translateX(1000px);
+  transition: all .3s ease;
   &_active {
     transform: translateX(0px);
+    transition: all .3s ease;
   }
   &__text {
     display: flex;
