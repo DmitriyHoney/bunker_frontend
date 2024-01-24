@@ -3,7 +3,7 @@ import CreateGameRoom from '../views/CreateGameRoom.vue';
 import StartGameRoom from '../views/StartGameRoom.vue';
 import GameRules from '../views/GameRules.vue';
 import GameRoom from '../views/GameRoom.vue';
-import StartGameLoader from '../views/StartGameLoader.vue';
+import StartGameLoader from '../views/Loaders/StartGameLoader.vue';
 
 import { useCommonStore } from '@/stores/index';
 
@@ -48,7 +48,7 @@ router.beforeEach(async (to, from, next) => {
   const commonStore = useCommonStore();
   commonStore.setActiveLoader();
   await new Promise((resolve) => {
-    setTimeout(() => resolve(true), 1500);
+    setTimeout(() => resolve(true), 800);
   });
   next();
   await new Promise((resolve) => {

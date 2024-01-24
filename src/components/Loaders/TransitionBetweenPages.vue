@@ -1,113 +1,165 @@
 <template>
-  <div class="loader" :class="{ 'loader--active': isActive }">
-    <div class="loader__icon">
-      <svg id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
-      <path opacity="0.2" fill="#fff" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"></path>
-        <path fill="#fff" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0C22.32,8.481,24.301,9.057,26.013,10.047z"></path>
-        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite"></animateTransform>
-    </svg>
-    </div>
-    <div class="loader__tile"></div>
-    <div class="loader__tile"></div>
-    <div class="loader__tile"></div>
-    <div class="loader__tile"></div>
-    <div class="loader__tile"></div>
+  <div class="cat" :class="{'cat-active': isActive}">
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
+    <div class="cat__segment"></div>
   </div>
 </template>
 
 <script setup>
-import { watch } from 'vue';
-
-const props = defineProps({
+defineProps({
   isActive: {
     type: Boolean,
-    default: true,
+    default: false,
   }
-});
-
-watch(() => props.isActive, () => {
-  const method = props.isActive ? 'add' : 'remove';
-  document.body.classList[method]('preloader-show');
 });
 </script>
 
 <style scoped lang="scss">
-$cyan: #111F2C;
-$tiles: 5;
+$angleSpan: 40deg;
+$dur: 2s;
+$delayInc: calc($dur / 100);
+$segments: 30;
+$timing: cubic-bezier(0.6,0,0.4,1);
+$playState: running;
+// colors
+$w1: hsl(0,0%,100%);
+$w1T: hsla(0,0%,100%,0);
+$w2: hsl(0,0%,90%);
+$w2T: hsla(0,0%,90%,0);
+$w3: hsl(0,0%,80%);
+$w3T: hsla(0,0%,80%,0);
+$bk: hsl(0,0%,10%);
+$bkT: hsla(0,0%,10%,0);
+$pk: hsl(0,60%,75%);
+$pkT: hsla(0,60%,75%,0);
 
-body {
-  background-color: #eee;
-}
-
-.wrapper {
-  height: 100vh;
-  text-align: center;
-
-  button {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-}
-
-.loader {
-  $parent: &;
-  position: fixed;
-  z-index: 999;
-  top: 0;
+.cat {
+  margin: auto;
+  position: absolute;
   left: 0;
-  width: 0;
-  height: 100vh;
-  transition: width 0s 1.2s ease;
-
-  #{$parent}__icon {
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: hsl(210,38%,28%);
+  opacity: 0;
+  z-index: -1;
+  transition: all .3s ease;
+  &-active {
+    opacity: 1;
+    z-index: 999;
+    transition: all .3s ease;
+  }
+  &__segment {
     position: absolute;
-    z-index: 1;
     top: 50%;
     left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    opacity: 0;
-    transition: opacity .5s ease;
-
-    svg {
-      transform-origin: 0 0;
-    }
-  }
-
-  #{$parent}__tile {
-    position: absolute;
-    left: 0;
-    width: 0;
-    height: 20%;
-    background-color: $cyan;
-    transition: width .3s ease;
-
-    @for $i from 0 through $tiles {
-      &:nth-child(#{$i}) {
-        top: calc(#{$i - 1} * 20%);
-        transition-delay: #{($i - 1) * 0.2s};
-      }
-    }
-  }
-
-  &--active {
-    width: 100%;
-    transition-delay: 0s;
-
-    #{$parent}__icon {
-      opacity: 1;
-      transition: opacity .5s 1.4s ease;
-    }
-
-    #{$parent}__tile {
+    width: 3em;
+    height: 2em;
+    transform: translate(-50%,-50%);
+    &:before {
+      animation: loop $dur $timing infinite $playState;
+      background: linear-gradient(90deg,$w1 20%,$w2 20% 80%,$w1 80%);
+      border-radius: 0.25em;
+      content: "";
+      display: block;
+      will-change: transform;
       width: 100%;
-
-      @for $i from 0 through $tiles {
-        &:nth-child(#{$i}) {
-          transition-delay: #{($i - 1) * 0.2s};
-        }
+      height: 100%;
+    }
+    &:first-of-type {
+      width: 4em;
+      height: 4em;
+      z-index: 1;
+      &:before {
+        background:
+            // eyes
+            radial-gradient(0.25em 0.25em at 1.25em 1.6em,$w1 48%,$w1T 50%),
+            radial-gradient(0.75em 0.75em at 1.25em 1.75em,$bk 48%,$bkT 50%),
+            radial-gradient(0.25em 0.25em at 2.75em 1.6em,$w1 48%,$w1T 50%),
+            radial-gradient(0.75em 0.75em at 2.75em 1.75em,$bk 48%,$bkT 50%),
+              // mouth
+            radial-gradient(0.9em 0.8em at 1.5em 2.65em,$w1 48%,$w1T 50%),
+            radial-gradient(0.9em 0.8em at 2.5em 2.65em,$w1 48%,$w1T 50%),
+            radial-gradient(1em 0.8em at 1.6em 2.75em,$w3 48%,$w3T 50%),
+            radial-gradient(1em 0.8em at 2.4em 2.75em,$w3 48%,$w3T 50%),
+              // nose
+            radial-gradient(0.75em 0.75em at 50% 2.5em,$pk 48%,$pkT 50%),
+              // head
+            radial-gradient(4em 3em at 50% 2em,$w1 48%,$w1T 50%),
+            radial-gradient(4em 3em at 50% 2.2em,$w3 48%,$w3T 50%),
+              // ears
+            radial-gradient(1em 3em at 0.75em 1.5em,$pk 39%,$w1 40% 49%,$w1T 50%),
+            radial-gradient(1em 3em at 3.25em 1.5em,$pk 39%,$w1 40% 49%,$w1T 50%),
+              // paws
+            radial-gradient(1em 2em at 0.5em 2.8em,$w1 48%,$w1T 50%),
+            radial-gradient(1em 2em at 0.5em 3em,$w3 48%,$w3T 50%),
+            radial-gradient(1em 2em at 3.5em 2.8em,$w1 48%,$w1T 50%),
+            radial-gradient(1em 2em at 3.5em 3em,$w3 48%,$w3T 50%);
+        background-repeat: no-repeat;
       }
     }
+    &:last-of-type {
+      width: 3em;
+      height: 4em;
+      &:before {
+        background:
+            linear-gradient(90deg,$w1 20%,$w2 20% 80%,$w1 80%) 0 1.5em / 3em 0.5em,
+            radial-gradient(3em 2em at top center,$w2 30%,$w1 31% 48%,$w1T 50%) 0 2em /  3em 2em,
+            radial-gradient(1em 4em at 0.5em 0,$w1 48%,$w1T 50%) 0 2em / 3em 2em,
+            radial-gradient(1em 4em at 2.5em 0,$w1 48%,$w1T 50%) 0 2em / 3em 2em;
+        background-repeat: no-repeat;
+      }
+    }
+    $negAngleHalf: calc($angleSpan / 2);
+    $angleInc: calc($angleSpan/$segments);
+    @for $s from 1 through $segments {
+      $rotateBy: $angleInc * ($s - 1);
+      &:nth-of-type(#{$s}) {
+        transform: translate(-50%,-50%) rotate($negAngleHalf + $rotateBy);
+      }
+      &:nth-of-type(#{$s}):before {
+        animation-delay: $delayInc * ($s - 1);
+        transform: translateX(6em);
+      }
+    }
+  }
+}
+
+// animation
+@keyframes loop {
+  from {
+    transform: rotate(0) translateX(6em);
+  }
+  to {
+    transform: rotate(-1turn) translateX(6em);
   }
 }
 </style>

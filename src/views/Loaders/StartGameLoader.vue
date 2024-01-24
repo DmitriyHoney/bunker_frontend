@@ -51,8 +51,8 @@ function intervalDone() {
       <p>{{ infoText[inc] }}</p>
     </div>
     <video autoplay loop muted>
-      <source src="../assets/videos/preloader.mp4" type="video/mp4" />
-      <source src="../assets/videos/preloader.mp4" type="video/ogg" />
+      <source src="../../assets/videos/preloader.mp4" type="video/mp4" />
+      <source src="../../assets/videos/preloader.mp4" type="video/ogg" />
       Your browser does not support the video tag.
     </video>
   </div>
