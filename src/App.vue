@@ -2,15 +2,18 @@
 import { RouterView } from 'vue-router';
 import TransitionBetweenPages from '@/components/Loaders/TransitionBetweenPages.vue';
 import { useCommonStore } from '@/stores/index.js';
-import StartGameLoader from '@/views/StartGameLoader.vue';
 const commonStore = useCommonStore();
+import VideoSrc  from '@/assets/videos/preloader.mp4';
 </script>
 
 <template>
   <main>
     <RouterView />
-<!--    <start-game-loader />-->
     <transition-between-pages :is-active="commonStore.isActiveLoader" />
+    <!-- Необходимо чтобы видео подгрузилось заранее -->
+    <video autoplay loop muted style="display: none;">
+      <source :src="VideoSrc" type="video/mp4" />
+    </video>
   </main>
 </template>
 
