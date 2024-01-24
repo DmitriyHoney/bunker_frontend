@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const infoText = [
@@ -22,20 +22,27 @@ const router = useRouter();
 const maxTimePreloader = 10000;
 const timeInterval = +((maxTimePreloader / 1000) / infoText.length * 1000).toFixed(0);
 
-const tId = setInterval(() => {
-  if (inc.value + 1 === infoText.length) {
-    clearInterval(tId);
-    return intervalDone();
-  } else inc.value++;
-}, timeInterval);
 
-const tId2 = setInterval(() => {
-  if (percents.value === 100) {
-    clearInterval(tId2);
-    return intervalDone();
-  };
-  percents.value++;
-}, timeInterval / 10);
+
+onMounted(async () => {
+  await new Promise((resolve) => {
+    setTimeout(() => resolve(true), 1900);
+  });
+  const tId = setInterval(() => {
+    if (inc.value + 1 === infoText.length) {
+      clearInterval(tId);
+      return intervalDone();
+    } else inc.value++;
+  }, timeInterval);
+
+  const tId2 = setInterval(() => {
+    if (percents.value === 100) {
+      clearInterval(tId2);
+      return intervalDone();
+    };
+    percents.value++;
+  }, timeInterval / 10);
+});
 
 function intervalDone() {
   if (percents.value === 100 && inc.value + 1 === infoText.length) {
