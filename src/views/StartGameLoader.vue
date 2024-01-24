@@ -74,8 +74,12 @@ function intervalDone() {
     position: absolute;
     z-index: 99;
     color: #fff;
-    bottom: 42px;
-    left: 42px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    bottom: 120px;
     & span {
       color: #C31F0B;
       font-size: 42px;
