@@ -1,78 +1,13 @@
 <script setup>
 import BaseButton from '@/components/common/BaseButton.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import IconInfoCircle from '@/components/icons/IconInfoCircle.vue';
 import IconUserAvatar from '@/components/icons/IconUserAvatar.vue';
+import { useUserGameStore } from '@/stores/userGame.js';
 
-const form = reactive({ link: 'https://bunker-online.com/game?game=etifBeG' });
-
-const players = [
-  {
-    id: 1,
-    name: 'Дмитрий',
-  },
-  {
-    id: 2,
-    name: 'Максим',
-  },
-  {
-    id: 3,
-    name: 'Сергей',
-  },
-  {
-    id: 4,
-    name: 'Сергей',
-  },
-  {
-    id: 5,
-    name: 'Дмитрий',
-  },
-  {
-    id: 6,
-    name: 'Максим',
-  },
-  {
-    id: 7,
-    name: 'Сергей',
-  },
-  {
-    id: 8,
-    name: 'Сергей',
-  },
-  {
-    id: 9,
-    name: 'Дмитрий',
-  },
-  {
-    id: 10,
-    name: 'Максим',
-  },
-  {
-    id: 11,
-    name: 'Сергей',
-  },
-  {
-    id: 12,
-    name: 'Сергей',
-  },
-  {
-    id: 13,
-    name: 'Дмитрий',
-  },
-  {
-    id: 14,
-    name: 'Максим',
-  },
-  {
-    id: 15,
-    name: 'Сергей',
-  },
-  {
-    id: 16,
-    name: 'Сергей',
-  },
-];
+const userStore = useUserGameStore();
+const players = userStore?.room?.users || [];
 const isOwner = ref(true);
 const isLoading = ref(false);
 
@@ -80,7 +15,7 @@ const handleClickCopyLink = async () => {
   isLoading.value = true;
   await new Promise((resolve) => setTimeout(() => resolve(), 500));
   const aux = document.createElement('input');
-  aux.setAttribute('value', form.link);
+  aux.setAttribute('value', userStore.roomLink);
   document.body.appendChild(aux);
   aux.select();
   document.execCommand('copy');
@@ -97,7 +32,7 @@ const handleClickCopyLink = async () => {
       <div class="start-player-section__link">
         <div class="start-player-section__content">
           <form class="start-player-section__form">
-            <base-input label="Ссыллка" v-model="form.link" />
+            <base-input label="Ссыллка" :model-value="userStore.roomLink" />
             <base-button
               @click="handleClickCopyLink"
               variant="primary_outlined"
@@ -118,7 +53,7 @@ const handleClickCopyLink = async () => {
               <icon-user-avatar />
             </div>
             <div class="player-list__item-info">
-              {{ player.name }}
+              {{ player.username }}
             </div>
           </div>
         </div>

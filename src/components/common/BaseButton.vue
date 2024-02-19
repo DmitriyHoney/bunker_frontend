@@ -135,8 +135,17 @@ $gray: #A0A8B5;
   &[data-variant="primary"] {
     background: $primary;
     color: #fff;
+    transition: all .3s ease;
     & svg circle {
       stroke: red;
+    }
+    &[disabled=disabled],
+    &:disabled {
+      // your css rules
+      background-color: #DDE1EB;
+      color: #fff;
+      cursor: default;
+      transition: all .3s ease;
     }
   }
   &[data-variant="primary_outlined"] {

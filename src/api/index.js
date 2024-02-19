@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { generateBaseCRUD } from '@/helpers/';
+import axios from 'axios';
 
 export const baseInstance = axios.create({
   baseURL: `${import.meta.env.VITE_SERVER_URL}/api/v1`,
@@ -11,7 +11,7 @@ export const baseInstance = axios.create({
 
 export const API = {
   auth: {
-    getToken: (user_id) => baseInstance.post('/auth/token/', { query: { user_id } })
+    getToken: (user_id) => baseInstance.post('/auth/token/', null, { params: { user_id } })
   },
   rooms: generateBaseCRUD(baseInstance, 'rooms', {
     join: (userId) => baseInstance.post(`/rooms/join/${userId}`)

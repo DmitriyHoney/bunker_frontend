@@ -9,3 +9,4 @@ export const generateBaseCRUD = (instance, url, custom) => ({
   ...custom,
 });
 
+export const customDelay = (ms = 1500) => new Promise((resolve) => setTimeout(() => resolve(true), ms));

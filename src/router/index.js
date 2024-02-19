@@ -6,6 +6,8 @@ import GameRoom from '../views/GameRoom.vue';
 import StartGameLoader from '../views/Loaders/StartGameLoader.vue';
 
 import { useCommonStore } from '@/stores/index';
+import { customDelay } from '@/helpers/index.js';
+import { useUserGameStore } from '@/stores/userGame.js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +18,7 @@ const router = createRouter({
       component: CreateGameRoom,
     },
     {
-      path: '/start-game-room',
+      path: '/start-game-room/:room_id?',
       name: 'start-game-room',
       component: StartGameRoom,
     },
@@ -43,18 +45,20 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(async (to, from, next) => {
-  // TODO: если игра уже начата и активна - запретить переход на start-game-loader
+const startPreloaderBetweenPages = async (cb) => {
   const commonStore = useCommonStore();
   commonStore.setActiveLoader();
-  await new Promise((resolve) => {
-    setTimeout(() => resolve(true), 800);
-  });
-  next();
-  await new Promise((resolve) => {
-    setTimeout(() => resolve(true), 1500);
-  });
+  await customDelay(3000);
+  cb();
   commonStore.setInactiveLoader();
+};
+
+router.beforeEach((to, from, next) => {
+  // TODO: если игра уже начата и активна - запретить переход на start-game-loader
+  // next();
+  startPreloaderBetweenPages(() => {
+    next();
+  });
 });
 
 export default router;
