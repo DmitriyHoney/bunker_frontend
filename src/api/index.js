@@ -9,12 +9,27 @@ export const baseInstance = axios.create({
   },
 });
 
+export const setStorageTokens = (access) => {
+  localStorage.setItem('accessToken', access);
+};
+
+export const getStorageTokens = () => {
+  const access = localStorage.getItem('accessToken');
+  return { access };
+};
+
+export const clearStorageTokens = () => {
+  baseInstance.defaults.headers.common['Authorization'] = '';
+  localStorage.removeItem('accessToken');
+};
+
+
 export const API = {
   auth: {
     getToken: (user_id) => baseInstance.post('/auth/token/', null, { params: { user_id } })
   },
   rooms: generateBaseCRUD(baseInstance, 'rooms', {
-    join: (userId) => baseInstance.post(`/rooms/join/${userId}`)
+    join: (userId) => baseInstance.get(`/rooms/join/${userId}`)
   }),
   users: generateBaseCRUD(baseInstance, 'users'),
   games: generateBaseCRUD(baseInstance, 'games'),
@@ -32,4 +47,3 @@ export const API = {
   rounds: generateBaseCRUD(baseInstance, 'rounds'),
   polls: generateBaseCRUD(baseInstance, 'polls'),
 };
-

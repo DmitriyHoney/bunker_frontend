@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import TransitionBetweenPages from '@/components/Loaders/TransitionBetweenPages.vue';
+// import TransitionBetweenPages from '@/components/Loaders/TransitionBetweenPages.vue';
 import { useCommonStore } from '@/stores/index.js';
 const commonStore = useCommonStore();
 import VideoSrc  from '@/assets/videos/preloader.mp4';
@@ -17,5 +17,3 @@ import LoadersV1 from '@/components/Loaders/LoadersV1.vue';
     </video>
   </main>
 </template>
-
-<style scoped></style>

@@ -1,27 +1,52 @@
 <script setup>
+// Vue
+import { onBeforeUnmount, onMounted, reactive, watch } from 'vue';
+
+// Components
 import BaseButton from '@/components/common/BaseButton.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
-import { ref } from 'vue';
+import IconStar from '@/components/icons/IconStar.vue';
+import IconUserCheck from '@/components/icons/IconUserCheck.vue';
 import IconInfoCircle from '@/components/icons/IconInfoCircle.vue';
 import IconUserAvatar from '@/components/icons/IconUserAvatar.vue';
-import { useUserGameStore } from '@/stores/userGame.js';
 
-const userStore = useUserGameStore();
-const players = userStore?.room?.users || [];
-const isOwner = ref(true);
-const isLoading = ref(false);
+import { useGameStore } from '@/stores/game.js';
+import { useRouter } from 'vue-router';
+const gameStore = useGameStore();
+const router = useRouter();
+const state = reactive({
+  isLoading: false,
+  intIds: [],
+});
 
-const handleClickCopyLink = async () => {
-  isLoading.value = true;
-  await new Promise((resolve) => setTimeout(() => resolve(), 500));
-  const aux = document.createElement('input');
-  aux.setAttribute('value', userStore.roomLink);
-  document.body.appendChild(aux);
-  aux.select();
-  document.execCommand('copy');
-  document.body.removeChild(aux);
-  isLoading.value = false;
+const methods = {
+  async handleClickCopyLink() {
+    state.isLoading = true;
+    await new Promise((resolve) => setTimeout(() => resolve(), 500));
+    const aux = document.createElement('input');
+    aux.setAttribute('value', gameStore.roomLink);
+    document.body.appendChild(aux);
+    aux.select();
+    document.execCommand('copy');
+    document.body.removeChild(aux);
+    state.isLoading = false;
+  },
+  async handleStartGame() {
+    await gameStore.startGameCreateDistributeDeck();
+    // router.push({ name: 'game-room' });
+  },
 };
+
+onMounted(() => {
+  const tId = setInterval(gameStore.getCurrentRoomAndDefineCurrentUser, 5000);
+  state.intIds.push(tId);
+});
+onBeforeUnmount(() => state.intIds.forEach((i) => clearInterval(i)));
+
+watch(() => gameStore.game, () => {
+  if (gameStore.game) router.push({ name: 'game-room' });
+});
+
 </script>
 
 <template>
@@ -32,11 +57,11 @@ const handleClickCopyLink = async () => {
       <div class="start-player-section__link">
         <div class="start-player-section__content">
           <form class="start-player-section__form">
-            <base-input label="Ссыллка" :model-value="userStore.roomLink" />
+            <base-input label="Ссыллка" :model-value="gameStore.roomLink" />
             <base-button
-              @click="handleClickCopyLink"
+              @click="methods.handleClickCopyLink"
               variant="primary_outlined"
-              :isLoading="isLoading"
+              :isLoading="state.isLoading"
               >Копировать ссылку</base-button
             >
           </form>
@@ -48,17 +73,19 @@ const handleClickCopyLink = async () => {
       <div class="player-list-wrap">
         <h4 class="player-list-wrap__title base-title-h4">Игроки</h4>
         <div class="player-list">
-          <div class="player-list__item" v-for="player in players" :key="player.id">
+          <div class="player-list__item" v-for="player in gameStore.players" :key="player.id">
             <div class="player-list__item-avatar">
               <icon-user-avatar />
             </div>
             <div class="player-list__item-info">
               {{ player.username }}
+              <icon-user-check v-if="player.isMy" style="position: relative; top: 2px; margin-left: 2px" />
+              <icon-star v-if="player.is_owner" color="#fff" style="position: relative; top: 2px; margin-left: 2px" />
             </div>
           </div>
         </div>
       </div>
-      <base-button v-if="isOwner" class="center" to="start-game-loader">Начать игру</base-button>
+      <base-button v-if="gameStore.isOwner" class="center" @click="methods.handleStartGame" :disabled="!gameStore.isGameCanStart">Начать игру</base-button>
       <p v-else class="info-tag center">
         <icon-info-circle />
         Ждите пока создатель игры запустит её
@@ -130,6 +157,7 @@ const handleClickCopyLink = async () => {
       background-color: #ff4c29;
       border-radius: 8px 0px 0px 8px;
       position: relative;
+      flex-shrink: 0;
       & svg {
         position: absolute;
         bottom: 0px;

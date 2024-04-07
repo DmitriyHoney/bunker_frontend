@@ -561,7 +561,7 @@ const kickedPlayers = [
 ];
 const alertActive = ref(false);
 const votesActive = ref(false);
-const specActive = ref(true);
+const specActive = ref(false);
 const backVoteActive = ref(false);
 </script>
 
