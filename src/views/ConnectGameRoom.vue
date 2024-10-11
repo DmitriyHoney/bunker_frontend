@@ -6,11 +6,12 @@ import { useRoute, useRouter } from 'vue-router';
 //Components
 import BaseButton from '@/components/common/BaseButton.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
+import { useUserStore } from '@/stores/user.js';
 
 // Pinia
-import { useGameStore } from '@/stores/game.js';
+// import { useGameStore } from '@/stores/room.js';
 
-const gameStore = useGameStore();
+const userStore = useUserStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -24,8 +25,11 @@ const methods = {
     if (!state.form.name.length) return;
     state.isLoading = true;
     try {
-      await gameStore.createUserAuthAndJoinInRoom(state.form.name, route.params.room_id);
-      router.push({ name: 'start-game-room', params: { room_id: gameStore.room.id } });
+      await userStore.createPlayerAndJoinRoom({
+        username: state.form.name,
+        room_id: route.params.room_id
+      });
+      router.push({ name: 'start-game-room', params: { room_id: userStore.user?.room } });
     } catch (e) {
       console.error(e);
     }

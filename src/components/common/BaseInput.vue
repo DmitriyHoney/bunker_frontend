@@ -8,6 +8,10 @@ defineProps({
     type: String,
     default: 'Введите текст',
   },
+  readonly: {
+    type: Boolean,
+    default: false,
+  },
   modelValue: [String, Number]
 });
 const emit = defineEmits(['update:modelValue']);
@@ -18,7 +22,7 @@ const updateValue = (event) => {
 
 <template>
   <div class="base-input">
-    <input autocomplete="off" class="input" :type="type" :placeholder="label" :value="modelValue" @input="updateValue" />
+    <input autocomplete="off" :readonly="readonly" class="input" :type="type" :placeholder="label" :value="modelValue" @input="updateValue" />
     <label class="label">{{ label }}</label>
   </div>
 </template>

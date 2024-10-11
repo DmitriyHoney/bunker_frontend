@@ -8,9 +8,9 @@ import StartGameLoader from '@/views/Loaders/StartGameLoader.vue';
 
 import { useCommonStore } from '@/stores/index';
 import { customDelay } from '@/helpers/index.js';
+import { useUserStore } from '@/stores/user.js';
 import { getStorageTokens } from '@/api/index.js';
-import { useGameStore } from '@/stores/game.js';
-// import { useUserGameStore } from '@/stores/game.js';
+import { useRoomStore } from '@/stores/room.js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,6 +31,17 @@ const router = createRouter({
       component: StartGameRoom,
     },
     {
+      path: '/game-room',
+      name: 'game-room',
+      component: GameRoom,
+    },
+
+    {
+      path: '/start-game-loader',
+      name: 'start-game-loader',
+      component: StartGameLoader,
+    },
+    {
       path: '/game-rules',
       name: 'game-rules',
       component: GameRules,
@@ -39,16 +50,6 @@ const router = createRouter({
       path: '/uikit',
       name: 'uikit',
       component: () => import('../views/UIKit.vue'),
-    },
-    {
-      path: '/game-room',
-      name: 'game-room',
-      component: GameRoom,
-    },
-    {
-      path: '/start-game-loader',
-      name: 'start-game-loader',
-      component: StartGameLoader,
     },
   ],
 });
@@ -65,15 +66,15 @@ router.beforeEach((to, from, next) => {
   // TODO: если игра уже начата и активна - запретить переход на start-game-loader
   // next();
   startPreloaderBetweenPages(async () => {
-    const gameStore = useGameStore();
+    const userStore = useUserStore();
+    const roomStore = useRoomStore();
     const { access } = getStorageTokens();
 
     const conditions = {
-      isNotAuthorized: !gameStore.currentUserInRoom && !access,
+      isNotAuthorized: !userStore.user && !access,
       isUserWantConnectGame: to.name === 'start-game-room' && !!to.params?.room_id,
-      isNotAuthorizedButTokenExist: !gameStore.currentUserInRoom && access,
+      isNotAuthorizedButTokenExist: !userStore.user && access,
     };
-
 
     if (to.name === 'connect-game-room' && conditions.isNotAuthorized) return next();
     else if (to.name === 'create-game-room' && conditions.isNotAuthorized) return next();
@@ -86,10 +87,11 @@ router.beforeEach((to, from, next) => {
       });
     else if (conditions.isNotAuthorized) return next({ name: 'create-game-room' });
     else if (conditions.isNotAuthorizedButTokenExist) {
-      await gameStore.getCurrentRoomAndDefineCurrentUser();
-      return gameStore?.room?.games?.length
+      await userStore.getMyProfile();
+      await roomStore.getMyRoom();
+      return roomStore.isGameStart
         ? next({ name: 'game-room' })
-        : next({ name: 'start-game-room', params: { room_id: gameStore?.room?.id } });
+        : next({ name: 'start-game-room', params: { room_id: userStore?.room?.id } });
     }
     // if user exit and token exist, and game not start => user go only await page
     // if game start user go to game page

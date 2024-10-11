@@ -16,6 +16,7 @@
     "axios-auth-refresh": "^3.3.6",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.1.7",
+    "socket.io-client": "^4.8.0",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5"
   },

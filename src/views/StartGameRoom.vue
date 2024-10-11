@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { onBeforeUnmount, onMounted, reactive, watch } from 'vue';
+import { onBeforeUnmount, onMounted, reactive } from 'vue';
 
 // Components
 import BaseButton from '@/components/common/BaseButton.vue';
@@ -10,10 +10,11 @@ import IconUserCheck from '@/components/icons/IconUserCheck.vue';
 import IconInfoCircle from '@/components/icons/IconInfoCircle.vue';
 import IconUserAvatar from '@/components/icons/IconUserAvatar.vue';
 
-import { useGameStore } from '@/stores/game.js';
-import { useRouter } from 'vue-router';
-const gameStore = useGameStore();
-const router = useRouter();
+import { useUserStore } from '@/stores/user.js';
+import { useRoomStore } from '@/stores/room.js';
+import { useSocketStore } from '@/stores/socket.js';
+const userStore = useUserStore();
+const roomStore = useRoomStore();
 const state = reactive({
   isLoading: false,
   intIds: [],
@@ -24,7 +25,7 @@ const methods = {
     state.isLoading = true;
     await new Promise((resolve) => setTimeout(() => resolve(), 500));
     const aux = document.createElement('input');
-    aux.setAttribute('value', gameStore.roomLink);
+    aux.setAttribute('value', roomStore.roomLink);
     document.body.appendChild(aux);
     aux.select();
     document.execCommand('copy');
@@ -32,21 +33,14 @@ const methods = {
     state.isLoading = false;
   },
   async handleStartGame() {
-    await gameStore.startGameCreateDistributeDeck();
-    // router.push({ name: 'game-room' });
+    await roomStore.startGameInRoom();
   },
 };
 
 onMounted(() => {
-  const tId = setInterval(gameStore.getCurrentRoomAndDefineCurrentUser, 5000);
-  state.intIds.push(tId);
+  roomStore.getMyRoom();
 });
 onBeforeUnmount(() => state.intIds.forEach((i) => clearInterval(i)));
-
-watch(() => gameStore.game, () => {
-  if (gameStore.game) router.push({ name: 'game-room' });
-});
-
 </script>
 
 <template>
@@ -57,7 +51,7 @@ watch(() => gameStore.game, () => {
       <div class="start-player-section__link">
         <div class="start-player-section__content">
           <form class="start-player-section__form">
-            <base-input label="Ссыллка" :model-value="gameStore.roomLink" />
+            <base-input readonly label="Ссыллка" :model-value="roomStore.roomLink" />
             <base-button
               @click="methods.handleClickCopyLink"
               variant="primary_outlined"
@@ -73,7 +67,7 @@ watch(() => gameStore.game, () => {
       <div class="player-list-wrap">
         <h4 class="player-list-wrap__title base-title-h4">Игроки</h4>
         <div class="player-list">
-          <div class="player-list__item" v-for="player in gameStore.players" :key="player.id">
+          <div class="player-list__item" v-for="player in roomStore.playersInGame" :key="player.id">
             <div class="player-list__item-avatar">
               <icon-user-avatar />
             </div>
@@ -85,7 +79,8 @@ watch(() => gameStore.game, () => {
           </div>
         </div>
       </div>
-      <base-button v-if="gameStore.isOwner" class="center" @click="methods.handleStartGame" :disabled="!gameStore.isGameCanStart">Начать игру</base-button>
+      <base-button v-if="userStore.isOwner" class="center" @click="methods.handleStartGame">Начать игру</base-button>
+<!--      :disabled="!roomStore.readyToStart"-->
       <p v-else class="info-tag center">
         <icon-info-circle />
         Ждите пока создатель игры запустит её

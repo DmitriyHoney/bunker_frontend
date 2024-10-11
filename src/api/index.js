@@ -25,25 +25,10 @@ export const clearStorageTokens = () => {
 
 
 export const API = {
-  auth: {
-    getToken: (user_id) => baseInstance.post('/auth/token/', null, { params: { user_id } })
-  },
   rooms: generateBaseCRUD(baseInstance, 'rooms', {
-    join: (userId) => baseInstance.get(`/rooms/join/${userId}`)
+    startGame: () => baseInstance.post('rooms/startgame')
   }),
-  users: generateBaseCRUD(baseInstance, 'users'),
-  games: generateBaseCRUD(baseInstance, 'games'),
-  decks: generateBaseCRUD(baseInstance, 'decks', {
-    distribute: (payload) => baseInstance.post('/decks/distribute/', payload),
-    getMyDeck: () => baseInstance.get('/decks/me/'),
+  players: generateBaseCRUD(baseInstance, 'players', {
+    myProfile: () => baseInstance.get('players/me')
   }),
-  moves: generateBaseCRUD(baseInstance, 'moves', {
-    makeMove: (payload) => baseInstance.post('/moves/make/', payload),
-  }),
-  cards: generateBaseCRUD(baseInstance, 'cards', {
-    getRandomCards: () => baseInstance.get('/cards/random/'),
-    useCard: (payload) => baseInstance.post('/cards/use/', payload),
-  }),
-  rounds: generateBaseCRUD(baseInstance, 'rounds'),
-  polls: generateBaseCRUD(baseInstance, 'polls'),
 };

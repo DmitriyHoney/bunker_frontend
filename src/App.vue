@@ -5,6 +5,16 @@ import { useCommonStore } from '@/stores/index.js';
 const commonStore = useCommonStore();
 import VideoSrc  from '@/assets/videos/preloader.mp4';
 import LoadersV1 from '@/components/Loaders/LoadersV1.vue';
+
+import { useSocketStore } from '@/stores/socket.js';
+import { onMounted } from 'vue';
+
+const connectionStore = useSocketStore();
+
+onMounted(() => {
+  connectionStore.connect();
+  connectionStore.bindEvents();
+});
 </script>
 
 <template>

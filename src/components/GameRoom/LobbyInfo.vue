@@ -2,13 +2,12 @@
 import BaseButton from '@/components/common/BaseButton.vue';
 import BaseTooltip from '@/components/common/BaseTooltip.vue';
 import IconInfoCircle from '@/components/icons/IconInfoCircle.vue';
+import { getPluralValues } from '@/helpers/index.js';
 
 defineProps({
-  title: String,
   description: String,
   img: String,
-  bunkerPlaces: [Number, String],
-  bunkerAvailableCardsCount: [Number, String],
+  bunkerSize: [Number, String],
   bunkerCards: Array,
 });
 </script>
@@ -17,27 +16,27 @@ defineProps({
   <div class="lobby-info">
     <div class="lobby-info__cataclysm cataclysm">
       <div class="cataclysm__header">
-        <h3 class="base-title">{{ title }}</h3>
+        <h3 class="base-title">Катаклизм</h3>
         <base-button variant="primary_flat" to="game-rules">Как играть?</base-button>
       </div>
-      <p class="cataclysm__description">{{ description }}</p>
+      <p class="cataclysm__description" v-html="description"></p>
     </div>
     <div class="lobby-info__bunker bunker">
       <div class="bunker__header">
         <div class="bunker__text">
           <h4 class="base-title-h4">Карты бункера</h4>
           <p class="bunker__available-cards">
-            Всего доступно {{ bunkerAvailableCardsCount }} карт бункера
+            Всего доступно {{ getPluralValues(bunkerCards.length, ['карта', 'карты', 'карт']) }} бункера
           </p>
         </div>
-        <div class="bunker__places">Всего мест в бункере: {{ bunkerPlaces }}</div>
+        <div class="bunker__places">Всего мест в бункере: {{ bunkerSize }}</div>
       </div>
       <ul class="bunker__cards">
         <li class="bunker__card" v-for="(card, key) in bunkerCards" :key="key">
-          <base-tooltip :title="card.tooltip">
+          <base-tooltip title="Данный предмет находится в бункере">
             <icon-info-circle></icon-info-circle>
           </base-tooltip>
-          {{ card.name }}
+          {{ card.property.name }}
         </li>
       </ul>
     </div>

@@ -1,53 +1,20 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import IconArrowNext from '@/components/icons/IconArrowNext.vue';
+import { useUserStore } from '@/stores/user.js';
+import { CARD_TYPES, CARD_TYPES_TRANSLATE } from '@/constants/index.js';
 
-defineProps({
+const props = defineProps({
   players: Array,
   label: String,
+  emptyLabel: String
 });
 
-const headers = [
-  'Профессия:',
-  'Чел. качества:',
-  'Чел. характеристики:',
-  'Профессия:',
-  'Профессия:',
-  'Профессия:',
-  'Профессия:',
-  'Профессия:',
-  'Профессия:',
-  'Профессия:',
-  'Профессия:',
-  'Профессия:',
-  'Профессия:',
-  'Профессия:',
-];
 
-const fixedColumn = [
-  'Евгений',
-  'Дмитрий',
-  'Александр',
-  'Максим',
-  'Новый игрок',
-];
-
-const rows = [
-  ['Строитель', 'Педант', 'test3', 'test4', 'test5', '...', 'test7', 'test1', 'test2', 'test3', 'test4', 'test5', '...', 'test7'],
-  ['Курьер', 'Изи', '...', '...', '...', 'test6', 'test7', 'test1', 'test2', 'test3', 'test4', 'test5', '...', 'test7'],
-  ['Безработный', 'Настырный', 'test3', 'test4', '...', 'test6', '...', 'test1', 'test2', 'test3', '...', 'test5', 'test6', '...'],
-  ['Презентации', 'Мигрант', '...', '...', 'test5', 'test6', 'test7', '...', 'test2', '...', 'test4', 'test5', 'test6', 'test7'],
-  ['Порноактёр', '...', 'test3', '...', 'test5', 'test6', 'test7', 'test1', 'test2', '...', 'test4', 'test5', 'test6', 'test7'],
-];
-
-const rowsAdds = [
-  ['test1', 'test2'],
-  ['test1', 'test2'],
-  ['test1', 'test2'],
-  ['test1', 'test2'],
-  ['test1', 'test2'],
-];
-
+const CARD_TYPES_ORDER_IN_TABLE = Object.values(CARD_TYPES).filter((t) => ![CARD_TYPES.disaster, CARD_TYPES.bunker].includes(t));
+const SPEC_CARD_TYPES_ORDER_IN_TABLE = Object.values(CARD_TYPES).filter((t) => [CARD_TYPES.disaster, CARD_TYPES.bunker].includes(t));
+const headers = CARD_TYPES_ORDER_IN_TABLE.map((type) => ({ type, translate: CARD_TYPES_TRANSLATE[type] }));
+const headers2 = SPEC_CARD_TYPES_ORDER_IN_TABLE.map((type) => ({ type, translate: CARD_TYPES_TRANSLATE[type] }));
 
 const fixedBlock = ref(null);
 const widthFixedBlock = ref(0);
@@ -64,7 +31,17 @@ const scrollTable = () => {
 };
 
 const checkScroll = () => (parent.value ? isScrollEnd.value = parent.value.scrollLeft > 0 :  isScrollEnd.value = false);
-onMounted(() =>  widthFixedBlock.value = fixedBlock.value.offsetWidth);
+
+const userStore = useUserStore();
+
+onMounted(() =>  {
+  widthFixedBlock.value = fixedBlock.value.offsetWidth;
+});
+
+const findPlayerCardByType = (player, cardType) => {
+  if (!player?.cards) return null;
+  return player.cards.find((c) => c.type === cardType);
+};
 
 </script>
 
@@ -72,26 +49,30 @@ onMounted(() =>  widthFixedBlock.value = fixedBlock.value.offsetWidth);
   <div class="base-table-header">
     <h3>{{ label }}</h3>
     <div class="base-table-header__slide">
-      <span>{{ isScrollEnd ? 'Карточки игроков' : 'Специальные условия' }}</span>
-      <button type="button"  @click="scrollTable"><icon-arrow-next type="single" style="transition: all ease .3s" :style="isScrollEnd ? 'transform: rotate(180deg)' : ''"></icon-arrow-next></button>
+      <template v-if="players.length">
+        <span>{{ isScrollEnd ? 'Карточки игроков' : 'Специальные условия' }}</span>
+        <button type="button"  @click="scrollTable"><icon-arrow-next type="single" style="transition: all ease .3s" :style="isScrollEnd ? 'transform: rotate(180deg)' : ''"></icon-arrow-next></button>
+      </template>
+      <span v-else>{{ emptyLabel }}</span>
     </div>
   </div>
-  <div class="base-table">
+  <div class="base-table" v-if="players.length">
     <div class="base-table__fixed-cols" ref="fixedBlock">
       <div class="base-table__header">Игроки</div>
-      <div class="base-table__cell" v-for="(column, idx) in fixedColumn" :key="idx">{{ column }}</div>
+      <div class="base-table__cell" :class="{'current_user': player.id === userStore.user.id}" v-for="(player, idx) in props.players" :key="idx">{{ player.username }} {{ player.id === userStore.user.id ? '(Вы)' : ''}}</div>
     </div>
     <div class="base-table__content hidden-scroll" ref="parent" @scroll="checkScroll">
       <div class="base-table__content_base">
         <div class="base-table__headers">
           <div class="base-table__header" v-for="(header, idx) in headers" :key="idx">
-            {{ header }}
+            {{ header.translate }}
           </div>
         </div>
-        <div class="base-table__content-row" v-for="(row, idx) in rows" :key="idx">
+        <div class="base-table__content-row" v-for="player in players" :key="player.id">
           <!-- TODO fixed 'base-table__cell_center': col === '...' -->
-          <div class="base-table__content-cell base-table__cell base-table__cell_ghost" :class="{ 'base-table__cell_center': col === '...'}" v-for="(col, colIdx) in row" :key="colIdx">
-            {{ col }}
+          <div class="base-table__content-cell base-table__cell base-table__cell_ghost" v-for="cardType in headers" :key="cardType">
+            <span v-if="findPlayerCardByType(player, cardType.type)">{{ findPlayerCardByType(player, cardType.type).property.name }}</span>
+            <span v-else>Скрыта</span>
           </div>
         </div>
       </div>
@@ -100,9 +81,10 @@ onMounted(() =>  widthFixedBlock.value = fixedBlock.value.offsetWidth);
           <div class="base-table__header">Спец. возможность №1:</div>
           <div class="base-table__header">Спец. возможность №2:</div>
         </div>
-        <div class="base-table__content-row" v-for="(row, idx) in rowsAdds" :key="idx">
-          <div class="base-table__content-cell base-table__cell base-table__cell_ghost_white" v-for="(col, colIdx) in row" :key="colIdx">
-            {{ col }}
+        <div class="base-table__content-row" v-for="player in players" :key="player.id">
+          <div class="base-table__content-cell base-table__cell base-table__cell_ghost_white" v-for="cardType in headers2" :key="cardType">
+            <span v-if="findPlayerCardByType(player, cardType.type)">{{ findPlayerCardByType(player, cardType.type).property.name }}</span>
+            <span v-else>Скрыта</span>
           </div>
         </div>
       </div>
@@ -249,5 +231,8 @@ onMounted(() =>  widthFixedBlock.value = fixedBlock.value.offsetWidth);
     height: 8px;
     display: none;
   }
+}
+.current_user {
+  border: 2px solid #FF4C29;
 }
 </style>

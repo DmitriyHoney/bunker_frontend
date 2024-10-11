@@ -4,6 +4,8 @@ import IconInfoCircle from '@/components/icons/IconInfoCircle.vue';
 import IconArrowNext from '@/components/icons/IconArrowNext.vue';
 import IconLock from '@/components/icons/IconLock.vue';
 import IconUnlock from '@/components/icons/iconUnlock.vue';
+import { CARD_TYPES, CARD_TYPES_TRANSLATE } from '@/constants/index.js';
+import { translatePeopleBiology } from '../../helpers/index.js';
 
 defineProps({
   playerNow: Object,
@@ -27,14 +29,15 @@ defineProps({
     </div>
     <div class="player__card">
       <ul class="player__attrs">
-        <li v-for="(attr, key) in player.attrs" :key="key">
-          <span class="player__attr-name">{{ attr.name }}:</span>
+        <li v-for="(card, key) in player.cards" :key="key">
+          <span class="player__attr-name">{{ CARD_TYPES_TRANSLATE[card.type] }}:</span>
           <div class="player__item">
-            <base-tooltip :title="attr.tooltip">
-              <icon-info-circle></icon-info-circle>
+            <base-tooltip :title="card.property.description">
+              <icon-info-circle style="flex-shrink: 0" :style="`${!card.property.description ? 'opacity: 0.2' : ''}`"></icon-info-circle>
             </base-tooltip>
-            <p>{{ attr.value }}</p>
-            <icon-unlock v-if="attr.opened"></icon-unlock>
+            <p v-if="card.type !== CARD_TYPES.biology">{{ card.property.name }}</p>
+            <p v-else>{{ translatePeopleBiology(card.property) }}</p>
+            <icon-unlock v-if="card.opened_at"></icon-unlock>
             <base-tooltip v-else title="Нажмите чтобы открыть эту карту">
               <icon-lock></icon-lock>
             </base-tooltip>
@@ -43,13 +46,13 @@ defineProps({
       </ul>
       <div class="player__specs">
         <h4 class="base-title-h4">Специальные условия</h4>
-        <div class="player__item" v-for="(spec, key) in player.specs" :key="key">
-          <base-tooltip :title="spec.tooltip">
-            <icon-info-circle></icon-info-circle>
+        <div class="player__item" v-for="(card, key) in player.special_cards" :key="key">
+          <base-tooltip :title="card.property.description">
+            <icon-info-circle style="flex-shrink: 0" :style="`${!card.property.description ? 'opacity: 0.2' : ''}`"></icon-info-circle>
           </base-tooltip>
-          <p>{{ spec.value }}</p>
-          <icon-unlock v-if="spec.used"></icon-unlock>
-          <base-tooltip v-else title="Нажмите чтобы использовать эту способность">
+          <p>{{ card.property.name }}</p>
+          <icon-unlock v-if="card.opened_at"></icon-unlock>
+          <base-tooltip style="flex-shrink: 0" v-else title="Нажмите чтобы использовать эту способность">
             <icon-lock></icon-lock>
           </base-tooltip>
         </div>
@@ -179,6 +182,7 @@ ul {
     font-weight: 500;
     line-height: normal;
     flex: 1 0 0;
+    flex-shrink: 0;
     p {
       flex-grow: 1;
     }

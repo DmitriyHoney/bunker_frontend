@@ -7,7 +7,7 @@ export const useTokenInRequest = () => {
   baseInstance.interceptors.request.use((req) => {
     const { access } = getStorageTokens();
     access
-      ? (req.headers.Authorization = 'Bearer ' + access)
+      ? (req.headers['token'] = access)
       : clearStorageTokens();
     return req;
   });

@@ -6,11 +6,12 @@ import IconLine from '@/components/icons/IconLine.vue';
 import ModalAlert from '@/components/common/BaseModalAlert.vue';
 import ModalVotes from '@/components/common/BaseModalVotes.vue';
 
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import ModalSpec from '@/components/common/BaseModalSpec.vue';
 import ModalBackVote from '@/components/common/BaseModalBackVote.vue';
+import { useUserStore } from '@/stores/user.js';
+import { useRoomStore } from '@/stores/room.js';
 
-const title = 'Катаклизм';
 const description = `На протяжении десятков лет ученые всего мира проводили исследования и предпринимали
   попытки создания лекарства от болезни Альцгеймера. Последние испытания на обезьянах
   проходили успешно. Однако ученые не знали, что они создали самыйопасный штамп гриппа в
@@ -112,7 +113,7 @@ const player = {
       name: 'Тест спец способ',
       tooltip: 'Подсказка',
       value:
-        'Сыграй эту карту перед голосованием. Удвойте голоса других за игрока, против которого проголосовал ты, но твой голос не считается.',
+        'Сыграй эту карdту перед голосованием. Удвойте голоса других за игрока, против которого проголосовал ты, но твой голос не считается.',
       used: false,
     },
   ],
@@ -563,21 +564,28 @@ const alertActive = ref(false);
 const votesActive = ref(false);
 const specActive = ref(false);
 const backVoteActive = ref(false);
+
+const userStore = useUserStore();
+const roomStore = useRoomStore();
+
+onMounted(() => {
+  userStore.getMyProfile();
+  roomStore.getMyRoom();
+});
 </script>
 
 <template>
   <section class="container">
     <lobby-info
-      :title="title"
-      :description="description"
-      bunkerAvailableCardsCount="5"
-      bunkerPlaces="15"
-      :bunkerCards="bunkerCards"
+      v-if="roomStore.disasterCard"
+      :description="roomStore.disasterCard.property.description"
+      :bunkerSize="roomStore.bunkerCard.property.size"
+      :bunkerCards="roomStore.luggageCards"
     />
-    <player-card :player-now="playerNow" :player="player" :players="players" />
-    <players-list :players="players" label="Игроки"></players-list>
+    <player-card :player-now="playerNow" :player="userStore.user" :players="players" />
+    <players-list :players="roomStore.playersInGame" label="Игроки"></players-list>
     <icon-line></icon-line>
-    <players-list :players="kickedPlayers" label="Таблица выбывших"></players-list>
+    <players-list :players="roomStore.playersDropped" label="Таблица выбывших" emptyLabel="Выбывших игроков ещё нет"></players-list>
     <modal-alert :active="alertActive"></modal-alert>
     <modal-votes :players="players" :active="votesActive" :modalBack="backVoteActive"></modal-votes>
     <modal-spec :players="players" :active="specActive"></modal-spec>

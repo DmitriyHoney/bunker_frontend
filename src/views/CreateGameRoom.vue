@@ -1,6 +1,6 @@
 <script setup>
 // Vue, vue-utils
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 //Components
@@ -8,27 +8,30 @@ import BaseButton from '@/components/common/BaseButton.vue';
 import BaseInput from '@/components/common/BaseInput.vue';
 
 // Pinia
-import { useGameStore } from '@/stores/game.js';
+import { useRoomStore } from '@/stores/room.js';
+import { useUserStore } from '@/stores/user.js';
 
-const gameStore = useGameStore();
 const router = useRouter();
 
-const state = reactive({
-  form: { name: '' },
-  isLoading: false,
-});
+const roomStore = useRoomStore();
+const userStore = useUserStore();
 
+const state = reactive({
+  isLoading: false,
+  username: ''
+});
 const methods = {
   async handleClickCreateGame() {
-    if (!state.form.name.length) return;
     state.isLoading = true;
     try {
-      await gameStore.ownerCreateRoomAndAuth(state.form.name);
-      router.push({ name: 'start-game-room', params: { room_id: gameStore.room.id } });
+      await roomStore.createRoom();
+      await userStore.createPlayerAndJoinRoom({ username: state.username, room_id: roomStore.room.id });
+      router.push({ name: 'start-game-room' });
     } catch (e) {
       console.error(e);
+    } finally {
+      state.isLoading = false;
     }
-    state.isLoading = false;
   }
 };
 </script>
@@ -39,8 +42,8 @@ const methods = {
       <base-button class="center" variant="primary_flat" to="game-rules">Как играть?</base-button>
       <h2 class="base-title">Создать игровую комнату</h2>
       <form class="start-player-section__form" @submit.prevent="methods.handleClickCreateGame">
-        <base-input label="Введите имя" v-model.trim="state.form.name" />
-        <base-button @click="methods.handleClickCreateGame" :disabled="!state.form.name.length || state.isLoading" :isLoading="state.isLoading">Создать игру</base-button>
+        <base-input label="Введите имя" v-model.trim="state.username" />
+        <base-button @click="methods.handleClickCreateGame" :disabled="!state.username.length || state.isLoading" :isLoading="state.isLoading">Создать игру</base-button>
       </form>
     </div>
   </section>
